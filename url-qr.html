@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>URL QR Code Generator – Free Tool</title>
+
+  <meta name="description" content="Generate QR code for any website URL instantly." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="logo">QR<span>Tools</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+    </nav>
+  </div>
+</header>
+
+<!-- GENERATOR -->
+<section class="generator">
+  <div class="container">
+
+    <h1>URL QR Code Generator</h1>
+    <p>Paste any website link to generate QR code</p>
+
+    <div class="generator-box">
+
+      <input
+        type="url"
+        id="urlInput"
+        placeholder="https://example.com"
+      />
+
+      <button onclick="generateURLQR()">Generate QR Code</button>
+
+      <div id="qrResult" class="qr-result"></div>
+
+      <button
+        id="downloadBtn"
+        class="download-btn"
+        onclick="downloadQR()"
+        style="display:none"
+      >
+        Download QR Code
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 QRTools. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+let currentQRUrl = "";
+
+function generateURLQR() {
+  const url = document.getElementById("urlInput").value.trim();
+
+  if (!url) {
+    alert("Please enter a valid URL");
+    return;
+  }
+
+  currentQRUrl =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(url);
+
+  document.getElementById("qrResult").innerHTML =
+    `<img id="qrImg" src="${currentQRUrl}" crossorigin="anonymous" alt="URL QR Code">`;
+
+  document.getElementById("downloadBtn").style.display = "inline-block";
+}
+
+function downloadQR() {
+  const img = document.getElementById("qrImg");
+  if (!img) return;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  ctx.drawImage(img, 0, 0);
+
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "url-qr.png";
+  link.click();
+}
+</script>
+
+</body>
+</html>

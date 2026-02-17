@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WiFi QR Code Generator – Free Tool</title>
+
+  <meta name="description" content="Generate WiFi QR code instantly. Share WiFi network without typing password." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="logo">QR<span>Tools</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+    </nav>
+  </div>
+</header>
+
+<!-- GENERATOR -->
+<section class="generator">
+  <div class="container">
+
+    <h1>WiFi QR Code Generator</h1>
+    <p>Share WiFi instantly without typing password.</p>
+
+    <div class="generator-box">
+
+      <input type="text" id="ssid" placeholder="WiFi Name (SSID)" />
+
+      <input type="password" id="password" placeholder="WiFi Password" />
+
+      <select id="security">
+        <option value="WPA">WPA / WPA2</option>
+        <option value="WEP">WEP</option>
+        <option value="nopass">No Password</option>
+      </select>
+
+      <button onclick="generateWiFiQR()">Generate WiFi QR Code</button>
+
+      <div id="qrResult" class="qr-result"></div>
+
+      <a id="downloadBtn" class="download-btn" style="display:none;">
+        Download QR Code
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 QRTools. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+function generateWiFiQR() {
+  const ssid = document.getElementById("ssid").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const security = document.getElementById("security").value;
+
+  if (!ssid) {
+    alert("Please enter WiFi name (SSID)");
+    return;
+  }
+
+  let wifiData = "";
+  if (security === "nopass") {
+    wifiData = `WIFI:T:nopass;S:${ssid};;`;
+  } else {
+    wifiData = `WIFI:T:${security};S:${ssid};P:${password};;`;
+  }
+
+  const qrUrl =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(wifiData);
+
+  const img = new Image();
+  img.crossOrigin = "anonymous";
+  img.src = qrUrl;
+
+  img.onload = function () {
+    const qrResult = document.getElementById("qrResult");
+    qrResult.innerHTML = "";
+    qrResult.appendChild(img);
+
+    const downloadBtn = document.getElementById("downloadBtn");
+    downloadBtn.style.display = "inline-block";
+
+    downloadBtn.onclick = function () {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = "wifi-qr.png";
+      link.click();
+    };
+  };
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SMS QR Code Generator</title>
+
+  <meta name="description" content="Generate SMS QR code instantly. Scan to send a pre-filled SMS." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="logo">QR<span>Tools</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- GENERATOR -->
+<section class="generator">
+  <div class="container">
+
+    <h1>SMS QR Code Generator</h1>
+    <p>Create a QR code that opens SMS with number & message.</p>
+
+    <div class="generator-box">
+
+      <input
+        type="tel"
+        id="phoneInput"
+        placeholder="Phone number (with country code)"
+      />
+
+      <textarea
+        id="messageInput"
+        placeholder="SMS message (optional)"
+        rows="4"
+      ></textarea>
+
+      <button onclick="generateSMSQR()">Generate SMS QR Code</button>
+
+      <div id="qrResult" class="qr-result"></div>
+
+      <button
+        id="downloadBtn"
+        class="download-btn"
+        onclick="downloadQR()"
+        style="display:none"
+      >
+        Download QR Code
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 QRTools. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+let currentQRUrl = "";
+
+function generateSMSQR() {
+  const phone = document.getElementById("phoneInput").value.trim();
+  const message = document.getElementById("messageInput").value.trim();
+
+  if (!phone) {
+    alert("Please enter a phone number");
+    return;
+  }
+
+  let smsData = "SMSTO:" + phone;
+  if (message) smsData += ":" + message;
+
+  currentQRUrl =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(smsData);
+
+  document.getElementById("qrResult").innerHTML =
+    `<img id="qrImg" src="${currentQRUrl}" crossorigin="anonymous" alt="SMS QR Code">`;
+
+  document.getElementById("downloadBtn").style.display = "inline-block";
+}
+
+function downloadQR() {
+  const img = document.getElementById("qrImg");
+  if (!img) return;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  ctx.drawImage(img, 0, 0);
+
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "sms-qr.png";
+  link.click();
+}
+</script>
+
+</body>
+</html>

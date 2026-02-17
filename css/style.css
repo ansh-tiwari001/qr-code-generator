@@ -1,0 +1,294 @@
+/* ================= GLOBAL ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+/* ================= HEADER ================= */
+.header {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.logo span {
+  color: #2563eb;
+}
+
+nav a {
+  margin-left: 20px;
+  font-weight: 500;
+  color: #334155;
+}
+
+nav a:hover {
+  color: #2563eb;
+}
+
+/* ================= HERO ================= */
+.hero {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #fff;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+  opacity: 0.95;
+}
+
+/* ================= TOOLS GRID ================= */
+.tools {
+  padding: 70px 0;
+}
+
+.tools h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 40px;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.tool-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 28px 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.tool-card img {
+  width: 44px;
+  margin-bottom: 16px;
+}
+
+.tool-card h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.tool-card p {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.tool-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* ================= GENERATOR ================= */
+.generator {
+  padding: 80px 0;
+}
+
+.generator h1 {
+  text-align: center;
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.generator p {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 30px;
+}
+
+.generator-box {
+  max-width: 520px;
+  background: #ffffff;
+  margin: auto;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.generator-box input,
+.generator-box textarea,
+.generator-box select {
+  width: 100%;
+  padding: 14px 15px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  font-size: 15px;
+}
+
+.generator-box input:focus,
+.generator-box textarea:focus,
+.generator-box select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.generator-box button {
+  width: 100%;
+  padding: 14px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.generator-box button:hover {
+  background: #1e40af;
+}
+
+/* ================= QR RESULT ================= */
+.qr-result {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.qr-result img {
+  max-width: 100%;
+}
+
+.download-btn {
+  display: none;
+  margin-top: 15px;
+  text-align: center;
+  padding: 12px;
+  background: #10b981;
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.download-btn:hover {
+  background: #059669;
+}
+
+/* ================= ABOUT ================= */
+.about {
+  padding: 70px 0;
+  background: #ffffff;
+}
+
+.about h2 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 16px;
+}
+
+.about p {
+  max-width: 700px;
+  margin: auto;
+  text-align: center;
+  color: #475569;
+}
+
+/* ================= FAQ ================= */
+.faq {
+  padding: 70px 0;
+}
+
+.faq h2 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+details {
+  max-width: 800px;
+  margin: 12px auto;
+  background: #ffffff;
+  padding: 16px 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+details p {
+  margin-top: 10px;
+  color: #475569;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  background: #0f172a;
+  color: #cbd5e1;
+  padding: 30px 0;
+}
+
+.footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-links a {
+  margin: 0 10px;
+  font-size: 14px;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .tools h2,
+  .generator h1 {
+    font-size: 26px;
+  }
+}
