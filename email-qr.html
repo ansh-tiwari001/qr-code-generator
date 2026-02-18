@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Email QR Code Generator</title>
+
+  <meta name="description" content="Generate email QR code instantly. Open email app with pre-filled subject and message." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="logo">QR<span>Tools</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- GENERATOR -->
+<section class="generator">
+  <div class="container">
+
+    <h1>Email QR Code Generator</h1>
+    <p>Create a QR code that opens email with subject and message.</p>
+
+    <div class="generator-box">
+
+      <input type="email" id="emailInput" placeholder="Enter Email Address" />
+      <input type="text" id="subjectInput" placeholder="Enter Subject (Optional)" />
+      <textarea id="messageInput" placeholder="Enter Message (Optional)"></textarea>
+
+      <button onclick="generateEmailQR()">Generate Email QR Code</button>
+
+      <div id="qrResult" class="qr-result"></div>
+
+      <button
+        id="downloadBtn"
+        class="download-btn"
+        onclick="downloadQR()"
+        style="display:none"
+      >
+        Download QR Code
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 QRTools. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+let currentQRUrl = "";
+
+function generateEmailQR() {
+  const email = document.getElementById("emailInput").value.trim();
+  const subject = document.getElementById("subjectInput").value.trim();
+  const message = document.getElementById("messageInput").value.trim();
+
+  if (!email) {
+    alert("Please enter an email address");
+    return;
+  }
+
+  const mailtoLink =
+    "mailto:" + email +
+    "?subject=" + encodeURIComponent(subject) +
+    "&body=" + encodeURIComponent(message);
+
+  currentQRUrl =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(mailtoLink);
+
+  document.getElementById("qrResult").innerHTML =
+    `<img id="qrImg" src="${currentQRUrl}" crossorigin="anonymous" alt="Email QR Code">`;
+
+  document.getElementById("downloadBtn").style.display = "inline-block";
+}
+
+function downloadQR() {
+  const img = document.getElementById("qrImg");
+  if (!img) return;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+
+  ctx.drawImage(img, 0, 0);
+
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "email-qr.png";
+  link.click();
+}
+</script>
+
+</body>
+</html>
