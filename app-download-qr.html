@@ -1,63 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>App Download QR Code Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
 
-  <!-- QR Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <meta name="description" content="Generate App Download QR code. Smart redirect to Play Store and App Store." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="container" style="padding:40px 20px; text-align:center;">
-
-  <h1>App Download QR Generator</h1>
-  <p>Generate smart redirect QR for Android & iPhone</p>
-
-  <div style="max-width:500px; margin:30px auto;">
-
-    <input type="text" id="androidLink" placeholder="Enter Play Store Link"
-      style="width:100%; padding:12px; margin-bottom:15px;">
-
-    <input type="text" id="iosLink" placeholder="Enter App Store Link"
-      style="width:100%; padding:12px; margin-bottom:15px;">
-
-    <button onclick="generateQR()" 
-      style="padding:12px 25px; cursor:pointer;">
-      Generate QR Code
-    </button>
-
+<!-- HEADER -->
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="logo">QR<span>Tools</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="contact.html">Contact</a>
+    </nav>
   </div>
+</header>
 
-  <div id="qrcode" style="margin-top:30px;"></div>
+<!-- GENERATOR -->
+<section class="generator">
+  <div class="container">
 
-</div>
+    <h1>App Download QR Code Generator</h1>
+    <p>Create a QR code that smartly redirects to Android or iPhone app store.</p>
 
+    <div class="generator-box">
+
+      <input type="url" id="androidInput" placeholder="Enter Play Store Link" />
+      <input type="url" id="iosInput" placeholder="Enter App Store Link" />
+
+      <button onclick="generateAppQR()">Generate App QR Code</button>
+
+      <div id="qrResult" class="qr-result"></div>
+
+      <button
+        id="downloadBtn"
+        class="download-btn"
+        onclick="downloadQR()"
+        style="display:none"
+      >
+        Download QR Code
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 QRTools. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- SCRIPT -->
 <script>
 
-function generateQR() {
+let currentQRUrl = "";
 
-  const android = document.getElementById("androidLink").value.trim();
-  const ios = document.getElementById("iosLink").value.trim();
+function generateAppQR() {
+
+  const android = document.getElementById("androidInput").value.trim();
+  const ios = document.getElementById("iosInput").value.trim();
 
   if (!android || !ios) {
-    alert("Please enter both links.");
+    alert("Please enter both store links");
     return;
   }
 
-  const redirectURL = `${window.location.origin}/redirect.html?android=${encodeURIComponent(android)}&ios=${encodeURIComponent(ios)}`;
+  const redirectURL =
+    window.location.origin +
+    "/redirect.html?android=" +
+    encodeURIComponent(android) +
+    "&ios=" +
+    encodeURIComponent(ios);
 
-  document.getElementById("qrcode").innerHTML = "";
+  currentQRUrl =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(redirectURL);
 
-  new QRCode(document.getElementById("qrcode"), {
-    text: redirectURL,
-    width: 220,
-    height: 220
-  });
+  document.getElementById("qrResult").innerHTML =
+    `<img id="qrImg" src="${currentQRUrl}" crossorigin="anonymous" alt="App Download QR Code">`;
 
+  document.getElementById("downloadBtn").style.display = "inline-block";
+}
+
+function downloadQR() {
+
+  const img = document.getElementById("qrImg");
+  if (!img) return;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+
+  ctx.drawImage(img, 0, 0);
+
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "app-download-qr.png";
+  link.click();
 }
 
 </script>
