@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+</head>
+
+<body>
+
+<script>
+function getParams() {
+  const params = {};
+  const query = window.location.search.substring(1).split("&");
+
+  query.forEach(function(part) {
+    const item = part.split("=");
+    params[item[0]] = decodeURIComponent(item[1]);
+  });
+
+  return params;
+}
+
+const params = getParams();
+const androidLink = params.android;
+const iosLink = params.ios;
+
+const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+if (/android/i.test(userAgent)) {
+  window.location.href = androidLink;
+}
+else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+  window.location.href = iosLink;
+}
+else {
+  document.body.innerHTML = `
+    <h2>Select Your Device</h2>
+    <p><a href="${androidLink}">Download for Android</a></p>
+    <p><a href="${iosLink}">Download for iPhone</a></p>
+  `;
+}
+</script>
+
+</body>
+</html>
