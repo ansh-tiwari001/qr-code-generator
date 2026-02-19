@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>App Download QR Code Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- QR Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+<div class="container" style="padding:40px 20px; text-align:center;">
+
+  <h1>App Download QR Generator</h1>
+  <p>Generate smart redirect QR for Android & iPhone</p>
+
+  <div style="max-width:500px; margin:30px auto;">
+
+    <input type="text" id="androidLink" placeholder="Enter Play Store Link"
+      style="width:100%; padding:12px; margin-bottom:15px;">
+
+    <input type="text" id="iosLink" placeholder="Enter App Store Link"
+      style="width:100%; padding:12px; margin-bottom:15px;">
+
+    <button onclick="generateQR()" 
+      style="padding:12px 25px; cursor:pointer;">
+      Generate QR Code
+    </button>
+
+  </div>
+
+  <div id="qrcode" style="margin-top:30px;"></div>
+
+</div>
+
+<script>
+
+function generateQR() {
+
+  const android = document.getElementById("androidLink").value.trim();
+  const ios = document.getElementById("iosLink").value.trim();
+
+  if (!android || !ios) {
+    alert("Please enter both links.");
+    return;
+  }
+
+  const redirectURL = `${window.location.origin}/redirect.html?android=${encodeURIComponent(android)}&ios=${encodeURIComponent(ios)}`;
+
+  document.getElementById("qrcode").innerHTML = "";
+
+  new QRCode(document.getElementById("qrcode"), {
+    text: redirectURL,
+    width: 220,
+    height: 220
+  });
+
+}
+
+</script>
+
+</body>
+</html>
