@@ -1,44 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Redirecting...</title>
+  <title>QR Status</title>
 </head>
-
-<body>
+<body style="text-align:center;padding:50px;font-family:Arial;">
 
 <script>
-function getParams() {
-  const params = {};
-  const query = window.location.search.substring(1).split("&");
+  const params = new URLSearchParams(window.location.search);
+  const url = params.get("url");
+  const exp = parseInt(params.get("exp"));
+  const now = new Date().getTime();
 
-  query.forEach(function(part) {
-    const item = part.split("=");
-    params[item[0]] = decodeURIComponent(item[1]);
-  });
-
-  return params;
-}
-
-const params = getParams();
-const androidLink = params.android;
-const iosLink = params.ios;
-
-const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-if (/android/i.test(userAgent)) {
-  window.location.href = androidLink;
-}
-else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-  window.location.href = iosLink;
-}
-else {
-  document.body.innerHTML = `
-    <h2>Select Your Device</h2>
-    <p><a href="${androidLink}">Download for Android</a></p>
-    <p><a href="${iosLink}">Download for iPhone</a></p>
-  `;
-}
+  if (!url || !exp) {
+    document.body.innerHTML = "<h2>Invalid QR Code</h2>";
+  } 
+  else if (now > exp) {
+    document.body.innerHTML = "<h2 style='color:red;'>❌ This QR Code Has Expired</h2>";
+  } 
+  else {
+    window.location.href = url;
+  }
 </script>
 
 </body>

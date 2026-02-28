@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AutoExpire QR Code Generator</title>
+
+  <meta name="description" content="Generate QR codes that expire automatically after a selected date and time." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="logo">QR<span>Tools</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- GENERATOR -->
+<section class="generator">
+  <div class="container">
+
+    <h1>AutoExpire QR Code Generator</h1>
+    <p>Create a QR code that expires at a selected date & time.</p>
+
+    <div class="generator-box">
+
+      <input
+        type="text"
+        id="qrInput"
+        placeholder="Enter text or URL"
+      />
+
+      <input type="date" id="expiryDate" />
+      <input type="time" id="expiryTime" />
+
+      <button onclick="generateAutoExpireQR()">Generate QR Code</button>
+
+      <div id="qrResult" class="qr-result"></div>
+
+      <button
+        id="downloadBtn"
+        class="download-btn"
+        onclick="downloadQR()"
+        style="display:none"
+      >
+        Download QR Code
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 QRTools. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+
+let currentQRUrl = "";
+
+function generateAutoExpireQR() {
+
+  const text = document.getElementById("qrInput").value.trim();
+  const date = document.getElementById("expiryDate").value;
+  const time = document.getElementById("expiryTime").value;
+
+  if (!text || !date || !time) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const expiryTimestamp = new Date(date + "T" + time).getTime();
+  const now = new Date().getTime();
+
+  if (expiryTimestamp <= now) {
+    alert("Expiry must be in the future");
+    return;
+  }
+
+  const expiryUrl =
+    window.location.origin +
+    window.location.pathname +
+    "?data=" + encodeURIComponent(text) +
+    "&expiry=" + expiryTimestamp;
+
+  currentQRUrl =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(expiryUrl);
+
+  document.getElementById("qrResult").innerHTML =
+    `<img id="qrImg" src="${currentQRUrl}" crossorigin="anonymous" alt="AutoExpire QR Code">`;
+
+  document.getElementById("downloadBtn").style.display = "inline-block";
+}
+
+function downloadQR() {
+
+  const img = document.getElementById("qrImg");
+  if (!img) return;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+
+  ctx.drawImage(img, 0, 0);
+
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "autoexpire-qr.png";
+  link.click();
+}
+
+
+// Expiry Check When QR Is Scanned
+const params = new URLSearchParams(window.location.search);
+
+if (params.has("data") && params.has("expiry")) {
+
+  const expiry = parseInt(params.get("expiry"));
+  const now = new Date().getTime();
+
+  document.body.innerHTML = "";
+
+  if (now > expiry) {
+    document.body.innerHTML = `
+      <div style="text-align:center; padding:100px; font-family:Inter;">
+        <h2 style="color:red;">This QR Code Has Expired</h2>
+      </div>`;
+  } else {
+    document.body.innerHTML = `
+      <div style="text-align:center; padding:100px; font-family:Inter;">
+        <h2>${params.get("data")}</h2>
+      </div>`;
+  }
+}
+
+</script>
+
+</body>
+</html>
