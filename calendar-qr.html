@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Event Calendar QR Code Generator</title>
+
+  <meta name="description" content="Generate calendar event QR code instantly. Add event to phone calendar by scanning QR." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <a href="index.html" class="logo">QR<span>Tools</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="generator">
+  <div class="container">
+
+    <h1>Event Calendar QR Code Generator</h1>
+    <p>Create a QR code that adds an event directly to phone calendar.</p>
+
+    <div class="generator-box">
+
+      <input type="text" id="eventTitle" placeholder="Event Title" />
+      <input type="date" id="eventDate" />
+      <input type="time" id="eventStartTime" />
+      <input type="time" id="eventEndTime" />
+      <input type="text" id="eventLocation" placeholder="Event Location" />
+      <input type="text" id="eventDescription" placeholder="Event Description" />
+
+      <button onclick="generateEventQR()">Generate Event QR Code</button>
+
+      <div id="qrResult" class="qr-result"></div>
+
+      <button
+        id="downloadBtn"
+        class="download-btn"
+        onclick="downloadQR()"
+        style="display:none"
+      >
+        Download QR Code
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 QRTools. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+let currentQRUrl = "";
+
+function formatDate(date, time) {
+  return date.replace(/-/g, "") + "T" + time.replace(":", "") + "00";
+}
+
+function generateEventQR() {
+  const title = document.getElementById("eventTitle").value.trim();
+  const date = document.getElementById("eventDate").value;
+  const startTime = document.getElementById("eventStartTime").value;
+  const endTime = document.getElementById("eventEndTime").value;
+  const location = document.getElementById("eventLocation").value.trim();
+  const description = document.getElementById("eventDescription").value.trim();
+
+  if (!title || !date || !startTime || !endTime) {
+    alert("Please fill all required fields");
+    return;
+  }
+
+  const dtStart = formatDate(date, startTime);
+  const dtEnd = formatDate(date, endTime);
+
+  const icsData =
+`BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${title}
+DTSTART:${dtStart}
+DTEND:${dtEnd}
+LOCATION:${location}
+DESCRIPTION:${description}
+END:VEVENT
+END:VCALENDAR`;
+
+  currentQRUrl =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(icsData);
+
+  document.getElementById("qrResult").innerHTML =
+    `<img id="qrImg" src="${currentQRUrl}" crossorigin="anonymous" alt="Event QR Code">`;
+
+  document.getElementById("downloadBtn").style.display = "inline-block";
+}
+
+function downloadQR() {
+  const img = document.getElementById("qrImg");
+  if (!img) return;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+
+  ctx.drawImage(img, 0, 0);
+
+  const link = document.createElement("a");
+  link.href = canvas.toDataURL("image/png");
+  link.download = "event-calendar-qr.png";
+  link.click();
+}
+</script>
+
+</body>
+</html>
