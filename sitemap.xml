@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/about.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/contact.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/url-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/wifi-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/whatsapp-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/location-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/vcard-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/sms-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/email-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/app-download-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/custom-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/autoexpire-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/calendar-qr.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/privacy-policy.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://qr-code-generator-three-tau.vercel.app/terms.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+</urlset>

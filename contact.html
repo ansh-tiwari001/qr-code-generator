@@ -2,30 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Contact Us – QRTools</title>
+  <title>Contact QRTools – Questions, Bug Reports & Suggestions</title>
+  <meta name="description" content="Contact QRTools for questions, bug reports, suggestions and feedback about our QR code generators.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://qr-code-generator-three-tau.vercel.app/contact.html">
+  <link rel="icon" href="assets/icons/link.svg">
   <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
 <header class="header">
   <div class="container nav">
     <a href="index.html" class="logo">QR<span>Tools</span></a>
     <nav>
       <a href="index.html">Home</a>
       <a href="index.html#tools">Tools</a>
+      <a href="contact.html" class="active">Contact</a>
     </nav>
   </div>
 </header>
 
 <section class="generator">
   <div class="container">
-    <h1>Contact Us</h1>
-    <p>If you have any questions or suggestions, feel free to reach out.</p>
+    <h1>Get in Touch</h1>
+    <p>Have a question, found a problem, or have an idea for a new QR tool?</p>
 
-    <div class="generator-box">
-      <p><strong>Email:</strong> spreadingknowledge724@gmail.com  </p>
-      <p><strong>Response time:</strong> Within 24–48 hours</p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-icon">✉</div>
+        <h2>General questions</h2>
+        <p>Ask about using any QRTools generator or let us know if something is not working as expected.</p>
+        <a href="mailto:spreadingknowledge724@gmail.com" class="contact-email">spreadingknowledge724@gmail.com</a>
+        <button type="button" class="secondary-btn" onclick="copyEmail()">Copy email</button>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-icon">⚙</div>
+        <h2>Report a problem</h2>
+        <p>Please include the tool name, what you entered, what happened, and your device or browser.</p>
+        <a href="mailto:spreadingknowledge724@gmail.com?subject=QRTools%20Bug%20Report" class="contact-btn">Email a bug report</a>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-icon">＋</div>
+        <h2>Suggest a feature</h2>
+        <p>Have an idea for a new QR type, customization option, or useful feature? We would love to hear it.</p>
+        <a href="mailto:spreadingknowledge724@gmail.com?subject=QRTools%20Feature%20Request" class="contact-btn">Suggest a feature</a>
+      </div>
+    </div>
+
+    <div class="contact-note">
+      <strong>Response time:</strong> We aim to respond within 24–48 hours.
+      Please do not send passwords, payment information, or other sensitive information by email.
     </div>
   </div>
 </section>
@@ -33,8 +62,27 @@
 <footer class="footer">
   <div class="container">
     <p>© 2026 QRTools. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+    </div>
   </div>
 </footer>
 
+<script>
+function copyEmail() {
+  const email = "spreadingknowledge724@gmail.com";
+  navigator.clipboard.writeText(email).then(() => {
+    const btn = document.querySelector(".secondary-btn");
+    const old = btn.textContent;
+    btn.textContent = "Email copied ✓";
+    setTimeout(() => btn.textContent = old, 1800);
+  }).catch(() => {
+    window.location.href = "mailto:" + email;
+  });
+}
+</script>
 </body>
 </html>
