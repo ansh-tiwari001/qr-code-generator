@@ -128,11 +128,21 @@
   </div>
 </footer>
 
+
 <!-- SCRIPT -->
 <script>
+function escapeWifiValue(value) {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,")
+    .replace(/:/g, "\\:")
+    .replace(/"/g, '\\"');
+}
+
 function generateWiFiQR() {
   const ssid = document.getElementById("ssid").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const password = document.getElementById("password").value;
   const security = document.getElementById("security").value;
 
   if (!ssid) {
@@ -140,11 +150,20 @@ function generateWiFiQR() {
     return;
   }
 
-  let wifiData = "";
+  const safeSSID = escapeWifiValue(ssid);
+
+  let wifiData;
+
   if (security === "nopass") {
-    wifiData = `WIFI:T:nopass;S:${ssid};;`;
+    wifiData = `WIFI:T:nopass;S:${safeSSID};;`;
   } else {
-    wifiData = `WIFI:T:${security};S:${ssid};P:${password};;`;
+    if (!password) {
+      alert("Please enter WiFi password");
+      return;
+    }
+
+    const safePassword = escapeWifiValue(password);
+    wifiData = `WIFI:T:${security};S:${safeSSID};P:${safePassword};;`;
   }
 
   const qrUrl =
@@ -165,8 +184,8 @@ function generateWiFiQR() {
 
     downloadBtn.onclick = function () {
       const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
 
       const ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
@@ -176,6 +195,10 @@ function generateWiFiQR() {
       link.download = "wifi-qr.png";
       link.click();
     };
+  };
+
+  img.onerror = function () {
+    alert("Unable to generate QR code. Please try again.");
   };
 }
 </script>
